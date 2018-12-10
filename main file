@@ -1,0 +1,105 @@
+public class Client {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+		IPizzaOrderService service;
+		{
+			service = new PizzaOrderService();
+		}
+		int choice ; 
+Customer customer = new Customer();
+Order order = new Order();
+
+		char iterator;
+		do {
+			System.out.println(
+				"###*** WELCOME TO foodfest***###"+	"\n\t ***Menu***" + "\n\t 1.Place Order" + "\n\t 2.Display Order" + "\n\t 3.Exit" + 
+
+"\nEnter your choice");
+			choice = sc.nextInt();
+			switch (choice) {
+			case 1:
+				//Getting User Input for Placing the Order
+				try {
+					
+					System.out.println("Enter the name of the customer ");
+					customer.setCustomername(sc.next());
+					System.out.println("Enter customer address ");
+					customer.setAddress(sc.next());
+					System.out.println("Enter customer phone number ");
+					customer.setPhoneno(sc.next());
+
+					System.out.println("DIFFERENT TYPE OF COMBO THAT AREA AVAILABLE");
+
+					while (true) {
+						String combo = sc.next().toLowerCase();
+						int flag = 1;
+						switch (combo) {
+						case "combo1":
+							Order.setTotalPrice(340);
+							break;
+						case "combo2":
+							Order.setTotalPrice(270);
+							break;
+						case "combo3":
+							Order.setTotalPrice(565);
+							break;
+						case "combo4":
+							Order.setTotalPrice(485);
+							break;
+						default:
+							System.out.println("Wrong Selection of combo.....Renter the combo...");
+							flag = 0;
+						}
+						if (flag == 1)
+							break;
+					}
+					System.out.println("Price : " +Order.getTotalPrice());
+					LocalDate deliveryDate = LocalDate.now();
+					System.out.println(Delivery Date: " + deliveryDate);
+					Order.setOrderDate(deliveryDate);
+
+					System.out.println("combo Order Successfully Placed with Order Id:"
+							+ service.placeOrder(customer, pizzaOrder));
+				} catch (comboException e1) {
+					e1.printStackTrace();
+				}
+				break;
+			case 2:
+				//Getting Order Id from the user to display the required Order
+				System.out.println("Enter the Order Id: ");
+				try {
+					Order order = service.getOrderDetails(sc.nextInt());
+					//Displaying Order Details
+					System.out.println
+
+("###########################################################################################");
+					System.out.println("===========================================================================================");
+					System.out.println("\t\t ***Order Details***");
+					System.out.println("\tDelivery Date: " + Order.getdeliveryDate());
+					System.out.println("\tCustomer Id: " + pizzaOrder.getCustomerId());
+					System.out.println("\tTotal Price: " + pizzaOrder.getTotalPrice());
+					System.out.println
+
+("###########################################################################################");
+					System.out.println("===========================================================================================");
+				} catch (PizzaException e) {
+					
+					System.out.println("Exception thrown: " + e.getMessage());
+				}
+				break;
+			case 3:
+				// To exit the Application
+				System.exit(0);
+				break;
+			default:
+				System.out.println("Wrong Menu selection....");
+				break;
+			}
+			
+			System.out.println("Do you want to continue(y/n): ");
+			iterator = sc.next().toLowerCase().charAt(0);
+
+		} while (iterator == 'y');
+		sc.close();
+	}
+}
